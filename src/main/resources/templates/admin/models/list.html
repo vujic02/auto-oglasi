@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Modeli')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="mx-auto max-w-4xl px-4 py-8">
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-gray-900">Modeli vozila</h1>
+            <a th:href="@{/admin/models/new}" class="btn-primary">+ Novi model</a>
+        </div>
+
+        <div class="card overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 text-gray-600">
+                    <tr>
+                        <th class="px-4 py-3">Model</th>
+                        <th class="px-4 py-3">Marka</th>
+                        <th class="px-4 py-3 text-right">Akcije</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr th:each="m : ${models}">
+                        <td class="px-4 py-3 font-medium text-gray-900" th:text="${m.name}">Model</td>
+                        <td class="px-4 py-3 text-gray-600" th:text="${m.brand.name}">Marka</td>
+                        <td class="px-4 py-3">
+                            <div class="flex justify-end gap-2">
+                                <a th:href="@{/admin/models/{id}/edit(id=${m.id})}" class="btn-secondary">Izmeni</a>
+                                <form th:action="@{/admin/models/{id}/delete(id=${m.id})}" method="post"
+                                      onsubmit="return confirm('Obrisati model?');">
+                                    <button type="submit" class="btn-danger">Obriši</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(models)}">
+                        <td colspan="3" class="px-4 py-6 text-center text-gray-500">Nema unetih modela.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a th:href="@{/admin}" class="mt-4 inline-block text-sm text-brand-700 hover:underline">&larr; Nazad na admin panel</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

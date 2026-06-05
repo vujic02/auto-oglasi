@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Registracija')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex flex-1 items-center justify-center px-4 py-12">
+    <div class="card w-full max-w-lg p-8">
+        <h1 class="mb-6 text-center text-2xl font-bold text-gray-900">Registracija</h1>
+
+        <div th:if="${registrationError}" class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+             th:text="${registrationError}">Greška</div>
+
+        <form th:action="@{/register}" th:object="${registrationForm}" method="post" class="space-y-4">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                    <label class="label">Ime</label>
+                    <input type="text" th:field="*{firstName}" class="input"/>
+                </div>
+                <div>
+                    <label class="label">Prezime</label>
+                    <input type="text" th:field="*{lastName}" class="input"/>
+                </div>
+            </div>
+
+            <div>
+                <label class="label">Korisničko ime *</label>
+                <input type="text" th:field="*{username}" class="input"/>
+                <p class="form-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+            </div>
+
+            <div>
+                <label class="label">Email *</label>
+                <input type="email" th:field="*{email}" class="input"/>
+                <p class="form-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+
+            <div>
+                <label class="label">Telefon</label>
+                <input type="text" th:field="*{phone}" class="input"/>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                    <label class="label">Lozinka *</label>
+                    <input type="password" th:field="*{password}" class="input"/>
+                    <p class="form-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                </div>
+                <div>
+                    <label class="label">Potvrda lozinke *</label>
+                    <input type="password" th:field="*{confirmPassword}" class="input"/>
+                    <p class="form-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary w-full">Registruj se</button>
+        </form>
+
+        <p class="mt-4 text-center text-sm text-gray-500">
+            Već imate nalog?
+            <a th:href="@{/login}" class="font-semibold text-brand-700 hover:underline">Prijavite se</a>
+        </p>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

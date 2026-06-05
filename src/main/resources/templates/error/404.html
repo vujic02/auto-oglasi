@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Nije pronađeno')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex flex-1 items-center justify-center px-4 py-16">
+    <div class="card max-w-md p-10 text-center">
+        <div class="text-6xl">🔍</div>
+        <h1 class="mt-4 text-2xl font-bold text-gray-900">404 — Stranica nije pronađena</h1>
+        <p class="mt-2 text-gray-600" th:text="${errorMessage} ?: 'Traženi resurs ne postoji.'">Nije pronađeno.</p>
+        <a th:href="@{/}" class="btn-primary mt-6">Nazad na početnu</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

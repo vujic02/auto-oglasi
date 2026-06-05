@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Model')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div class="mx-auto max-w-lg px-4 py-8">
+        <h1 class="mb-6 text-2xl font-bold text-gray-900"
+            th:text="${editMode} ? 'Izmena modela' : 'Novi model'">Model</h1>
+
+        <form th:action="${editMode} ? @{/admin/models/{id}/edit(id=${carModel.id})} : @{/admin/models}"
+              method="post" class="card space-y-4 p-6">
+            <div>
+                <label class="label">Naziv modela *</label>
+                <input type="text" name="name" th:value="${carModel.name}" class="input" required/>
+            </div>
+            <div>
+                <label class="label">Marka *</label>
+                <select name="brandId" class="input" required>
+                    <option value="">-- izaberi marku --</option>
+                    <option th:each="b : ${brands}" th:value="${b.id}" th:text="${b.name}"
+                            th:selected="${carModel.brand != null and carModel.brand.id == b.id}"></option>
+                </select>
+            </div>
+            <div class="flex gap-2 border-t border-gray-100 pt-4">
+                <button type="submit" class="btn-primary">Sačuvaj</button>
+                <a th:href="@{/admin/models}" class="btn-secondary">Otkaži</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

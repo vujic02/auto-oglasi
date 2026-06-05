@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Prijava')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex flex-1 items-center justify-center px-4 py-12">
+    <div class="card w-full max-w-md p-8">
+        <h1 class="mb-6 text-center text-2xl font-bold text-gray-900">Prijava</h1>
+
+        <div th:if="${param.error}" class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            Pogrešno korisničko ime ili lozinka.
+        </div>
+        <div th:if="${param.registered}" class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+            Registracija uspešna! Prijavite se.
+        </div>
+        <div th:if="${param.logout}" class="mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+            Uspešno ste se odjavili.
+        </div>
+        <div th:if="${param.expired}" class="mb-4 rounded-lg border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
+            Sesija je istekla ili ste prijavljeni na drugom uređaju. Prijavite se ponovo.
+        </div>
+
+        <form th:action="@{/login}" method="post" class="space-y-4">
+            <div>
+                <label class="label">Korisničko ime</label>
+                <input type="text" name="username" class="input" required autofocus/>
+            </div>
+            <div>
+                <label class="label">Lozinka</label>
+                <input type="password" name="password" class="input" required/>
+            </div>
+            <label class="flex items-center gap-2 text-sm text-gray-600">
+                <input type="checkbox" name="remember-me" class="h-4 w-4 rounded border-gray-300"/>
+                Zapamti me
+            </label>
+            <button type="submit" class="btn-primary w-full">Prijavi se</button>
+        </form>
+
+        <p class="mt-4 text-center text-sm text-gray-500">
+            Nemate nalog?
+            <a th:href="@{/register}" class="font-semibold text-brand-700 hover:underline">Registrujte se</a>
+        </p>
+
+        <div class="mt-6 rounded-lg bg-gray-50 p-3 text-center text-xs text-gray-500">
+            Demo: <b>admin/admin</b> (administrator) · <b>pera/pera</b> (korisnik)
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

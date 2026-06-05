@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin panel')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <div class="mx-auto max-w-6xl px-4 py-8">
+        <h1 class="mb-6 text-2xl font-bold text-gray-900">Admin kontrolna tabla</h1>
+
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-5">
+            <a th:href="@{/admin/brands}" class="card p-5 text-center hover:shadow-md">
+                <div class="text-3xl font-bold text-brand-700" th:text="${brandCount}">0</div>
+                <div class="mt-1 text-sm text-gray-600">Marke</div>
+            </a>
+            <a th:href="@{/admin/models}" class="card p-5 text-center hover:shadow-md">
+                <div class="text-3xl font-bold text-brand-700" th:text="${modelCount}">0</div>
+                <div class="mt-1 text-sm text-gray-600">Modeli</div>
+            </a>
+            <a th:href="@{/admin/cities}" class="card p-5 text-center hover:shadow-md">
+                <div class="text-3xl font-bold text-brand-700" th:text="${cityCount}">0</div>
+                <div class="mt-1 text-sm text-gray-600">Gradovi</div>
+            </a>
+            <a th:href="@{/admin/features}" class="card p-5 text-center hover:shadow-md">
+                <div class="text-3xl font-bold text-brand-700" th:text="${featureCount}">0</div>
+                <div class="mt-1 text-sm text-gray-600">Oprema</div>
+            </a>
+            <a th:href="@{/admin/users}" class="card p-5 text-center hover:shadow-md">
+                <div class="text-3xl font-bold text-brand-700" th:text="${userCount}">0</div>
+                <div class="mt-1 text-sm text-gray-600">Korisnici</div>
+            </a>
+        </div>
+
+        <div class="mt-8 card p-6 text-sm text-gray-600">
+            <h2 class="mb-2 text-lg font-semibold text-gray-800">Upravljanje katalogom</h2>
+            <p>Ovde administrator dodaje/menja/briše marke, modele, gradove i opremu koji se
+               koriste prilikom kreiranja oglasa, kao i da upravlja korisničkim nalozima.</p>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

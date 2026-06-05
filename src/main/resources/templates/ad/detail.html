@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${ad.title})}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <div class="mx-auto max-w-5xl px-4 py-8">
+        <a th:href="@{/}" class="mb-4 inline-block text-sm text-brand-700 hover:underline">&larr; Nazad na oglase</a>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <!-- Slika -->
+            <div class="card overflow-hidden">
+                <img th:if="${ad.imageUrl}" th:src="${ad.imageUrl}" th:alt="${ad.title}"
+                     class="h-72 w-full object-cover"/>
+                <div th:unless="${ad.imageUrl}" class="flex h-72 items-center justify-center text-6xl text-gray-300">🚗</div>
+            </div>
+
+            <!-- Osnovni podaci -->
+            <div class="card p-6">
+                <div class="flex items-start justify-between">
+                    <h1 class="text-2xl font-bold text-gray-900" th:text="${ad.title}">Naslov</h1>
+                    <span class="badge"
+                          th:classappend="${ad.status.name() == 'PRODAT'} ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'"
+                          th:text="${ad.status.displayName}">Status</span>
+                </div>
+                <p class="mt-1 text-gray-500" th:text="${ad.carModel.fullName}">Marka Model</p>
+                <p class="mt-4 text-3xl font-bold text-brand-700">
+                    <span th:text="${#numbers.formatInteger(ad.price, 1, 'POINT')}">0</span> €
+                </p>
+
+                <dl class="mt-6 grid grid-cols-2 gap-4 text-sm">
+                    <div><dt class="text-gray-500">Godina</dt><dd class="font-semibold" th:text="${ad.year}">-</dd></div>
+                    <div><dt class="text-gray-500">Kilometraža</dt><dd class="font-semibold" th:text="${#numbers.formatInteger(ad.mileage, 1, 'POINT')} + ' km'">-</dd></div>
+                    <div><dt class="text-gray-500">Gorivo</dt><dd class="font-semibold" th:text="${ad.fuelType.displayName}">-</dd></div>
+                    <div><dt class="text-gray-500">Menjač</dt><dd class="font-semibold" th:text="${ad.transmission.displayName}">-</dd></div>
+                    <div th:if="${ad.color}"><dt class="text-gray-500">Boja</dt><dd class="font-semibold" th:text="${ad.color}">-</dd></div>
+                    <div th:if="${ad.enginePower}"><dt class="text-gray-500">Snaga</dt><dd class="font-semibold" th:text="${ad.enginePower} + ' kW'">-</dd></div>
+                    <div><dt class="text-gray-500">Lokacija</dt><dd class="font-semibold" th:text="${ad.city.name}">-</dd></div>
+                    <div><dt class="text-gray-500">Marka</dt><dd class="font-semibold" th:text="${ad.carModel.brand.name}">-</dd></div>
+                </dl>
+
+                <!-- Akcije (vlasnik ili admin) -->
+                <div th:if="${canModify}" class="mt-6 flex gap-2 border-t border-gray-100 pt-4">
+                    <a th:href="@{/ads/{id}/edit(id=${ad.id})}" class="btn-primary">Izmeni</a>
+                    <form th:action="@{/ads/{id}/delete(id=${ad.id})}" method="post"
+                          onsubmit="return confirm('Da li ste sigurni da želite da obrišete oglas?');">
+                        <button type="submit" class="btn-danger">Obriši</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Opis -->
+        <div class="card mt-6 p-6">
+            <h2 class="mb-2 text-lg font-semibold text-gray-800">Opis</h2>
+            <p class="whitespace-pre-line text-gray-700" th:text="${ad.description}">Opis vozila.</p>
+        </div>
+
+        <!-- Oprema (ManyToMany) -->
+        <div class="card mt-6 p-6">
+            <h2 class="mb-3 text-lg font-semibold text-gray-800">Oprema</h2>
+            <div th:if="${ad.features.isEmpty()}" class="text-sm text-gray-500">Nije navedena oprema.</div>
+            <div class="flex flex-wrap gap-2">
+                <span th:each="f : ${ad.features}" class="badge" th:text="${f.name}">Oprema</span>
+            </div>
+        </div>
+
+        <!-- Prodavac -->
+        <div class="card mt-6 p-6">
+            <h2 class="mb-2 text-lg font-semibold text-gray-800">Prodavac</h2>
+            <p class="text-gray-700"><span th:text="${ad.seller.fullName}">Ime</span></p>
+            <p class="text-sm text-gray-500" th:if="${ad.seller.phone}">📞 <span th:text="${ad.seller.phone}">tel</span></p>
+            <p class="text-sm text-gray-500">✉️ <span th:text="${ad.seller.email}">email</span></p>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

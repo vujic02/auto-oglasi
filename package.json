@@ -1,0 +1,13 @@
+{
+  "name": "auto-oglasi-tailwind",
+  "version": "1.0.0",
+  "description": "Tailwind CSS build pipeline za auto-oglasi (Thymeleaf templejti)",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./src/main/css/input.css -o ./src/main/resources/static/css/app.css --minify",
+    "watch": "tailwindcss -i ./src/main/css/input.css -o ./src/main/resources/static/css/app.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

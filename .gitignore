@@ -1,0 +1,22 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+.settings/
+
+# Node / Tailwind
+node_modules/
+
+# Logovi / OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Lokalne konfiguracije sa lozinkama (opciono)
+# src/main/resources/application-local.properties

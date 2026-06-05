@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="sr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!--
+  Zajednicki fragmenti: head, navbar, flash poruke, footer.
+  Koriste se preko th:replace u svim stranama.
+-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' | Auto Oglasi'">Auto Oglasi</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav th:fragment="navbar" class="bg-brand-700 text-white shadow">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+        <a th:href="@{/}" class="flex items-center gap-2 text-xl font-bold">
+            <span>🚗</span><span>Auto Oglasi</span>
+        </a>
+        <div class="flex items-center gap-2 text-sm">
+            <a th:href="@{/}" class="rounded px-3 py-2 hover:bg-brand-600">Oglasi</a>
+
+            <!-- Linkovi za prijavljene korisnike -->
+            <a sec:authorize="isAuthenticated()" th:href="@{/ads/new}"
+               class="rounded px-3 py-2 hover:bg-brand-600">+ Novi oglas</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/my-ads}"
+               class="rounded px-3 py-2 hover:bg-brand-600">Moji oglasi</a>
+
+            <!-- Admin panel - samo ADMIN rola -->
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin}"
+               class="rounded px-3 py-2 font-semibold text-yellow-200 hover:bg-brand-600">Admin panel</a>
+
+            <!-- Gost -->
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
+               class="rounded px-3 py-2 hover:bg-brand-600">Prijava</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/register}"
+               class="rounded bg-white px-3 py-2 font-semibold text-brand-700 hover:bg-brand-50">Registracija</a>
+
+            <!-- Prijavljen korisnik: ime + odjava -->
+            <span sec:authorize="isAuthenticated()" class="px-2 text-brand-100">
+                👤 <span sec:authentication="name">korisnik</span>
+            </span>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="inline">
+                <button type="submit" class="rounded bg-brand-800 px-3 py-2 hover:bg-brand-900">Odjava</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== FLASH PORUKA ===== -->
+<div th:fragment="flash" class="mx-auto max-w-6xl px-4">
+    <div th:if="${successMessage}"
+         class="mt-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800"
+         th:text="${successMessage}">OK</div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer th:fragment="footer" class="mt-12 border-t border-gray-200 bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
+        Auto Oglasi &copy; 2026 — Spring MVC + Thymeleaf + Spring Security · ISA završni projekat
+    </div>
+</footer>
+
+</body>
+</html>

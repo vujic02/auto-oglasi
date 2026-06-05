@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Moji oglasi')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+
+    <div class="mx-auto max-w-5xl px-4 py-8">
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-gray-900">Moji oglasi</h1>
+            <a th:href="@{/ads/new}" class="btn-primary">+ Novi oglas</a>
+        </div>
+
+        <div th:if="${#lists.isEmpty(ads)}" class="card p-8 text-center text-gray-500">
+            Još uvek nemate objavljenih oglasa.
+        </div>
+
+        <div class="space-y-4">
+            <div th:each="ad : ${ads}" class="card flex items-center gap-4 p-4">
+                <div class="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                    <img th:if="${ad.imageUrl}" th:src="${ad.imageUrl}" class="h-20 w-28 object-cover" alt=""/>
+                    <div th:unless="${ad.imageUrl}" class="flex h-20 items-center justify-center text-2xl text-gray-300">🚗</div>
+                </div>
+                <div class="flex-1">
+                    <a th:href="@{/ads/{id}(id=${ad.id})}" class="font-semibold text-gray-900 hover:underline" th:text="${ad.title}">Naslov</a>
+                    <p class="text-sm text-gray-500">
+                        <span th:text="${ad.carModel.fullName}">Model</span> ·
+                        <span th:text="${#numbers.formatInteger(ad.price, 1, 'POINT')} + ' €'">cena</span> ·
+                        <span th:text="${ad.status.displayName}">status</span>
+                    </p>
+                </div>
+                <div class="flex gap-2">
+                    <a th:href="@{/ads/{id}/edit(id=${ad.id})}" class="btn-secondary">Izmeni</a>
+                    <form th:action="@{/ads/{id}/delete(id=${ad.id})}" method="post"
+                          onsubmit="return confirm('Obrisati oglas?');">
+                        <button type="submit" class="btn-danger">Obriši</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

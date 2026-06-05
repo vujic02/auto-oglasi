@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Grad')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div class="mx-auto max-w-lg px-4 py-8">
+        <h1 class="mb-6 text-2xl font-bold text-gray-900"
+            th:text="${editMode} ? 'Izmena grada' : 'Novi grad'">Grad</h1>
+
+        <form th:action="${editMode} ? @{/admin/cities/{id}/edit(id=${city.id})} : @{/admin/cities}"
+              method="post" class="card space-y-4 p-6">
+            <div>
+                <label class="label">Naziv *</label>
+                <input type="text" name="name" th:value="${city.name}" class="input" required/>
+            </div>
+            <div>
+                <label class="label">Poštanski broj</label>
+                <input type="text" name="postalCode" th:value="${city.postalCode}" class="input"/>
+            </div>
+            <div class="flex gap-2 border-t border-gray-100 pt-4">
+                <button type="submit" class="btn-primary">Sačuvaj</button>
+                <a th:href="@{/admin/cities}" class="btn-secondary">Otkaži</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

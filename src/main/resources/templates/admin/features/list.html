@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Oprema')}"></head>
+<body class="flex min-h-screen flex-col bg-gray-50">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="flex-1">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="mx-auto max-w-3xl px-4 py-8">
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-gray-900">Oprema vozila</h1>
+            <a th:href="@{/admin/features/new}" class="btn-primary">+ Nova oprema</a>
+        </div>
+
+        <div class="card overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 text-gray-600">
+                    <tr>
+                        <th class="px-4 py-3">Naziv</th>
+                        <th class="px-4 py-3 text-right">Akcije</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr th:each="f : ${features}">
+                        <td class="px-4 py-3 font-medium text-gray-900" th:text="${f.name}">Oprema</td>
+                        <td class="px-4 py-3">
+                            <div class="flex justify-end gap-2">
+                                <a th:href="@{/admin/features/{id}/edit(id=${f.id})}" class="btn-secondary">Izmeni</a>
+                                <form th:action="@{/admin/features/{id}/delete(id=${f.id})}" method="post"
+                                      onsubmit="return confirm('Obrisati opremu?');">
+                                    <button type="submit" class="btn-danger">Obriši</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(features)}">
+                        <td colspan="2" class="px-4 py-6 text-center text-gray-500">Nema unete opreme.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a th:href="@{/admin}" class="mt-4 inline-block text-sm text-brand-700 hover:underline">&larr; Nazad na admin panel</a>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
